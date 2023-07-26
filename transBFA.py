@@ -7,6 +7,9 @@ for bgmDataLines in f.readlines():
         bgmList.append([bgmDataLines[2]])
         if "TH128_08" in bgmDataLines[2]:
             bgmDataLines[2] = "プレイヤーズスコア,"
+            bgmList[-1].append("プレイヤーズスコア")
+        if "TH19_90.WAV" not in bgmDataLines[2]:
+            bgmList.append([bgmDataLines[2].rstrip(",")])
         g = open("./data/musiccmt.txt", "r+", encoding="utf-8")
         for bgmNameLines in g.readlines():
             if "@bgm/" in bgmNameLines:
