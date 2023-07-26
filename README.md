@@ -2,7 +2,7 @@
 
 (其实就是个工具链集合)<br />
 <del>实际上经过细微修改便可用于所有thtk支持的作品。</del><br />
-<span style="text-decoration:line-through double">然而你都会改了哪还需要这个</span>
+<del>然而你都会改了哪还需要这个</del>
 
 ### 用法
 直接双击<code>一键解包.bat</code>，根据提示适当的按<code>回车键</code>，即可获得对非魔改大佬足够有用的全部原作素材（（<br />
