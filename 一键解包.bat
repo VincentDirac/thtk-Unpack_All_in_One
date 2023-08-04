@@ -1,17 +1,59 @@
 @echo off
-thdat -x d ./th19/th19.dat -C ./data
+SET TOOLSDIR=%~dp0
+SET THDIR=%1
+SET WORKSPACE=%TOOLSDIR%/data
+
+SET THTK_ANM=%TOOLSDIR%thtk\thanm
+SET THTK_DAT=%TOOLSDIR%thtk\thdat
+SET THTK_MSG=%TOOLSDIR%thtk\thmsg
+SET THTK_ECL=%TOOLSDIR%thtk\thecl
+SET THTK_ECL=%TOOLSDIR%thtk\thecl
+
+SET THVER=19
+SET DAT=th19tr.dat
+SET BGMFMT=thbgm_tr.fmt
+SET MUSICCMT=musiccmt_tr.txt
+
+cd %TOOLSDIR%
+
+echo GameInfo
+echo Ver: %THVER%
+echo Dir: %THDIR%
 pause
-for /r %%c in (*.anm) do thanm -x 19 "%%c"
+
+echo Unpack Dat...
+"%THTK_DAT%" -x d "%THDIR%/%DAT%" -C ./data
 pause
-for /r %%c in (pl*.msg) do thmsg -d 19 "%%c" ./dialogue/"%%~nc".txt
+
+echo Unpack ANM...
+cd ./anm
+for /r "%WORKSPACE%" %%c in (*.anm) do "%THTK_ANM%" -x %THVER% "%%c"
+cd ..
 pause
-for /r %%c in (e*.msg) do thmsg -e -d 19 "%%c" ./dialogue/"%%~nc".txt
+
+echo Unpack MSG...
+for /r "%WORKSPACE%" %%c in (pl*.msg) do "%THTK_MSG%" -d %THVER% "%%c" ./dialogue/"%%~nc".txt
 pause
-for /r %%c in (pl*.ecl) do thecl -d 19 -rxj "%%c" ./spellcard/"%%~nc".txt
+
+echo Unpack END MSG...
+for /r "%WORKSPACE%" %%c in (e*.msg) do "%THTK_MSG%" -e -d %THVER% "%%c" ./dialogue/"%%~nc".txt
 pause
-python thbgm.py -f ./data/thbgm.fmt -d ./th19/thbgm.dat -lWI -L 2
+
+echo Unpack END ECL...
+for /r "%WORKSPACE%" %%c in (pl*.ecl) do "%THTK_ECL%" -d %THVER% -rxj "%%c" ./spellcard/"%%~nc".txt
 pause
-python shift_jis_to_utf-8.py
+
+echo Unpack BGM...
+cd ./bgm
+python "%TOOLSDIR%thbgm.py" -f "%WORKSPACE%/%BGMFMT%" -d "%THDIR%/%DAT%" -lWI -L 2
+cd ..
 pause
-python transBFA.py
+
+echo Convert Encoding to UTF8...
+python "%TOOLSDIR%shift_jis_to_utf-8.py"
+pause
+
+echo Get BgmForAll Info...
+python "%TOOLSDIR%transBFA.py" -c "%TOOLSDIR%/data/%MUSICCMT%" -d "%TOOLSDIR%/bgm/"
+echo Done.
 pause
