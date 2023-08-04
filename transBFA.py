@@ -21,28 +21,77 @@ def getMusicCMT(filePath):
     f.close()
     return bgmObj
 
-bgmObj = getMusicCMT(cmtName)
-bfaFile = open(bfaDir + "BgmForAll.ini", "r+", encoding="utf-8")
-bfaNewFile = open(bfaDir + "BGMForAll+.ini", "w+", encoding="utf-8")
-bgmListFile = open(bfaDir + "BgmList.txt", "w+", encoding="utf-8")
-for bgmDataLine in bfaFile.readlines():
-    if "BGM = " in bgmDataLine:
-        bgmDataLine = bgmDataLine.lstrip("BGM = ")
-        bgmDataLines = bgmDataLine.split(", ")
-        bgmFileName = bgmDataLines[0]
-        # BGM名称处理
-        bgmName = bgmObj.get(bgmFileName)
-        if bgmName != None:
-            bgmDataLines[0] = bgmName
-        # 拼接BGM数据
-        bgmDataLine = "BGM = " + (", ").join(bgmDataLines)
-        # 写入BFA文件
-        bfaNewFile.write(bgmDataLine)
-        # 写入BGM列表
-        bgmListFile.write(bgmFileName + ", " + bgmDataLines[0] + "\n")
-    else:
-        # 复制BFA配置
-        bfaNewFile.write(bgmDataLine)
-        
-bfaFile.close()
-bfaNewFile.close()
+def getBFAJson(bgmObj,filePath):
+    f = open(filePath,"r+", encoding="utf-8")
+    info = {}
+    bgmList = []
+    # 处理ZUN的特殊癖好
+    spList = {
+        "TH128_08.WAV":"プレイヤーズスコア"
+    }
+    for line in f.readlines():
+        line = line.rstrip("\n")
+        if line == "":
+            continue
+        if line != "[THBGM]":
+            lines = line.split(" = ")
+            key = lines[0]
+            value = lines[1]
+            if key == "BGM":
+                # 如果是BGM列，将其转为数组
+                bgmLine = value.split(", ")
+                # BGM文件名字
+                fileName = bgmLine[0]
+                bgmName = bgmObj.get(fileName)
+                if(bgmName == None):
+                    # 处理复用文件名
+                    if spList.get(fileName) != None:
+                        bgmName = spList.get(fileName)
+                    else:
+                        bgmName = fileName
+                # 地址
+                hexs = [bgmLine[1],bgmLine[2],bgmLine[3],bgmLine[4]]
+                # 存储一个BGM对象
+                bgm = {"Name":bgmName,"FileName":fileName,"Address":hexs}
+                # 走你
+                bgmList.append(bgm)
+            else:
+                # 普通键值正常写入
+                info[key] = value
+    info["BGM"] = bgmList
+    f.close()
+    return info
+
+# 输出新的BFA信息
+def outputBFA(bfaInfo,filePath):
+    f = open(filePath,"w+", encoding="utf-8")
+    f.write("[THBGM]\n")
+    for line in bfaInfo:
+        key = line
+        value = bfaInfo[key]
+        if key == "BGM":
+            # 如果是BGM键，转回重复键模式
+            newLine = "\n"
+            for bgm in value:
+                bgmName = bgm["Name"]
+                address = ", ".join(bgm["Address"])
+                newLine += key + " = " + ", ".join([bgmName,address]) + "\n"
+        else:
+            newLine = key + " = " + value + "\n"
+        f.write(newLine)
+    f.close()
+
+# 输出曲目列表（排序后）
+def outputBGMListWithSort(bgmList,filePath):
+    f = open(filePath,"w+", encoding="utf-8")
+    # 按文件序号排序BGM
+    bgmList = sorted(bgmList, key=lambda k: k["FileName"])
+    for bgm in bgmList:
+        bgmLine = (", ").join([bgm["FileName"],bgm["Name"]]) + "\n"
+        f.write(bgmLine)
+    f.close()
+
+bgmInfo = getMusicCMT(cmtName)
+bfaInfo = getBFAJson(bgmInfo,bfaDir + "BgmForAll.ini")
+outputBFA(bfaInfo,bfaDir + "BgmForAll+.ini")
+outputBGMListWithSort(bfaInfo["BGM"],bfaDir + "BgmList.txt")
