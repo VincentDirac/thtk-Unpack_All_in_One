@@ -8,19 +8,16 @@ cmtName = args.cmt if args.cmt else './data/musiccmt.txt'
 bfaDir = args.dir if args.dir else './bgm/'
 
 def getMusicCMT(filePath):
-    bgmSPName = {
-        "TH128_08.WAV":"プレイヤーズスコア"
-    }
     f = open(filePath,"r+", encoding="utf-8")
     bgmObj = {}
     for line in f.readlines():
         if "@bgm/" in line:
             # 查找BGM文件名
-            bgmFileName = line.lstrip("@bgm/").rstrip("\n").upper() + ".WAV"
+            bgmFileName = line.lstrip("@bgm/").rstrip("\n").rstrip(".wav").upper() + ".WAV"
         elif "♪" in line:
              # 查找BGM名
              bgmName = line.lstrip("♪").rstrip("\n")
-             bgmObj[bgmFileName] = bgmName if bgmSPName.get(bgmFileName) == None else bgmSPName.get(bgmFileName)
+             bgmObj[bgmFileName] = bgmName
     f.close()
     return bgmObj
 
@@ -38,7 +35,7 @@ for bgmDataLine in bfaFile.readlines():
         if bgmName != None:
             bgmDataLines[0] = bgmName
         # 拼接BGM数据
-        bgmDataLine = "BGM = " + (" ").join(bgmDataLines)
+        bgmDataLine = "BGM = " + (", ").join(bgmDataLines)
         # 写入BFA文件
         bfaNewFile.write(bgmDataLine)
         # 写入BGM列表
