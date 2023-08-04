@@ -22,7 +22,7 @@ echo Dir: %THDIR%
 pause
 
 echo Unpack Dat...
-"%THTK_DAT%" -x d "%THDIR%/%DAT%" -C ./data
+"%THTK_DAT%" -x d "%THDIR%/%DAT%" -C "%WORKSPACE%"
 pause
 
 echo Unpack ANM...
