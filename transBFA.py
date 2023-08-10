@@ -15,9 +15,9 @@ def getMusicCMT(filePath):
             # 查找BGM文件名
             bgmFileName = line.lstrip("@bgm/").rstrip("\n").rstrip(".wav").upper() + ".WAV"
         elif "♪" in line:
-             # 查找BGM名
-             bgmName = line.lstrip("♪").rstrip("\n")
-             bgmObj[bgmFileName] = bgmName
+            # 查找BGM名
+            bgmName = line.lstrip("♪").rstrip("\n")
+            bgmObj[bgmFileName] = bgmName
     f.close()
     return bgmObj
 
