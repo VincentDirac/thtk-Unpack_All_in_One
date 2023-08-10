@@ -21,7 +21,7 @@ echo Ver: %THVER%
 echo Dir: %THDIR%
 pause
 
-echo Unpack Dat...
+echo Unpack DAT...
 "%THTK_DAT%" -x d "%THDIR%/%DAT%" -C "%WORKSPACE%"
 pause
 
@@ -39,7 +39,7 @@ echo Unpack END MSG...
 for /r "%WORKSPACE%" %%c in (e*.msg) do "%THTK_MSG%" -e -d %THVER% "%%c" ./dialogue/"%%~nc".txt
 pause
 
-echo Unpack END ECL...
+echo Unpack ECL...
 for /r "%WORKSPACE%" %%c in (pl*.ecl) do "%THTK_ECL%" -d %THVER% -rxj "%%c" ./spellcard/"%%~nc".txt
 pause
 
