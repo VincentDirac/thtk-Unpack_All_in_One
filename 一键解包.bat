@@ -10,9 +10,9 @@ SET THTK_ECL=%TOOLSDIR%thtk\thecl
 SET THTK_ECL=%TOOLSDIR%thtk\thecl
 
 SET THVER=19
-SET DAT=th19tr.dat
-SET BGMFMT=thbgm_tr.fmt
-SET MUSICCMT=musiccmt_tr.txt
+SET DAT=th19.dat
+SET BGMFMT=thbgm.fmt
+SET MUSICCMT=musiccmt.txt
 
 cd %TOOLSDIR%
 
