@@ -1,7 +1,7 @@
 THDAT(1)                    General Commands Manual                   THDAT(1)
 
 NAME
-       thdat 窶 Touhou archive tool
+       thdat — Touhou archive tool
 
 SYNOPSIS
        thdat     [-Vg]     [-C     dir]     [[-c | -l | -x]     [d | version]]
@@ -18,7 +18,7 @@ DESCRIPTION
                Lists the contents of the archive.
 
        thdat [-g] -x [d | version] archive [-C dir] [file ...]
-               Extracts  files.   If no files are specified, all files are ex窶
+               Extracts  files.   If no files are specified, all files are ex‐
                tracted.
 
        thdat -V
@@ -34,7 +34,7 @@ DESCRIPTION
                Note the use of quotes  to  escape  globing  performed  by  the
                shell.
 
-       -C dir  The  -C option changes the current directory to dir after open窶
+       -C dir  The  -C option changes the current directory to dir after open‐
                ing the archive.  It should be specified  between  the  archive
                name and the file list.
 
@@ -70,9 +70,9 @@ CAVEATS
        BGM archives are not supported by the thdat utility.
 
 BUGS
-       The format used by TH03-TH05 uses separate encryption keys for each en窶
+       The format used by TH03-TH05 uses separate encryption keys for each en‐
        try in the archives, as well as one key for the entry list.  It is  not
-       known  if these keys are computed from the entries, or if they are ran窶
+       known  if these keys are computed from the entries, or if they are ran‐
        domly assigned.  They are currently set to constant values.
 
        Original TH08 and TH09 archives contain a  large  amount  of  encrypted
