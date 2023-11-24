@@ -83,8 +83,8 @@ version.
 #### thecl
 - Scan and parse negative (-val) function. (th13+ only)
 - Complete support for th16.5.
-- Look up ≥th10 instruction formats even if they have no parameters.
-- Print the total parameter size for unknown ≥th10 instructions.
+- Look up 竕･th10 instruction formats even if they have no parameters.
+- Print the total parameter size for unknown 竕･th10 instructions.
 - th10: Add neqf to format table.
 - Print error and quit if expressions contain invalid types.
 - Allow floats in the form 1.f
