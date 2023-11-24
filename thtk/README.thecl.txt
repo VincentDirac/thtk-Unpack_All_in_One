@@ -1,7 +1,7 @@
 THECL(1)                    General Commands Manual                   THECL(1)
 
 NAME
-       thecl — Touhou enemy control language script tool
+       thecl 窶 Touhou enemy control language script tool
 
 SYNOPSIS
        thecl [-Vrsxj] [[-c | -h | -d] version] [-m eclmap]... [input [output]]
@@ -33,7 +33,7 @@ DESCRIPTION
        -s      The  -s  option enables simple creation mode, which doesn't add
                any instructions automatically.
 
-       -x      The -x option outputs address information when dumping instruc‐
+       -x      The -x option outputs address information when dumping instruc窶
                tions.  Shows both the file offset and the offset  relative  to
                the start of the sub.
 
@@ -41,7 +41,7 @@ DESCRIPTION
                UTF-8.  Source files are treated as UTF-8, ECL files as  Shift-
                JIS.
 
-       Replace  the  version  option  by  the  enemy script format version re‐
+       Replace  the  version  option  by  the  enemy script format version re窶
        quested.  Running the program without a command will list the supported
        formats.
 
@@ -50,32 +50,32 @@ EXIT STATUS
 
 ECLMAP FILE FORMAT
        Eclmap files, which are added with the -m option, consist of two  kinds
-       of lines: control lines (which start with ‘!’), and mapping lines.
+       of lines: control lines (which start with 窶!窶), and mapping lines.
 
-       The  file  starts with ‘!eclmap’ control line.  The rest of the control
+       The  file  starts with 窶!eclmap窶 control line.  The rest of the control
        lines select the mapping that is being modified:
 
-       ‘!ins_names’
+       窶!ins_names窶
                Instruction names.  This is the default mapping.
                Value: identifier
 
-       ‘!ins_signatures’
+       窶!ins_signatures窶
                Instruction signatures.
                Value: signature
 
-       ‘!gvar_names’
+       窶!gvar_names窶
                Global variable names.
                Value: identifier
 
-       ‘!gvar_types’
+       窶!gvar_types窶
                Global variable types.
-               Value: type (‘$’ for integer, ‘%’ for float)
+               Value: type (窶$窶 for integer, 窶%窶 for float)
 
-       ‘!timeline_ins_names’
+       窶!timeline_ins_names窶
                Timeline instruction names.
                Value: identifier
 
-       ‘!timeline_ins_signatures’
+       窶!timeline_ins_signatures窶
                Timeline instruction signatures.
                Value: signature
 
@@ -90,7 +90,7 @@ ECLMAP FILE FORMAT
              123 foo
              123 bar
 
-       will map ‘123’ to ‘bar’, ‘bar’ to ‘123’, and ‘foo’ to ‘123’.  Note  how
+       will map 窶123窶 to 窶話ar窶, 窶話ar窶 to 窶123窶, and 窶惑oo窶 to 窶123窶.  Note  how
        the first reverse mapping doesn't get removed.
 
 SEE ALSO

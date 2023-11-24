@@ -1,7 +1,7 @@
 THANM.OLD(1)                General Commands Manual               THANM.OLD(1)
 
 NAME
-       thanm.old — Touhou sprite archive tool
+       thanm.old 窶 Touhou sprite archive tool
 
 SYNOPSIS
        thanm.old [-Vf] [-l [version] | -x | -r | -c] [archive [...]]
@@ -11,7 +11,7 @@ DESCRIPTION
        following commands are available:
 
        thanm.old [-f] -l [version] archive
-               Displays a specification of the archive.  The version is neces‐
+               Displays a specification of the archive.  The version is neces窶
                sary to correctly process archives from TH18 and newer, but may
                otherwise be omitted.
 
@@ -25,7 +25,7 @@ DESCRIPTION
 
        thanm.old [-f] -c archive input
                Creates a new archive from a specification obtained by  the  -l
-               command.   It  will look for referenced image files in the cur‐
+               command.   It  will look for referenced image files in the cur窶
                rent directory.
 
        thanm.old -V
@@ -42,7 +42,7 @@ SEE ALSO
        Project homepage: https://github.com/thpatch/thtk
 
 BUGS
-       A few files from TH12 and TH13 contain overlapping entries with differ‐
+       A few files from TH12 and TH13 contain overlapping entries with differ窶
        ent formats.  Dumping and recreating these archives will not result  in
        the  same  archives.   The affected pixels seem to all have 0 for alpha
        though.
@@ -50,7 +50,7 @@ BUGS
        One of the scripts in TH95's front.anm  lack  a  sentinel  instruction.
        Dumping and recreating this archive will add a sentinel instruction.
 
-       This version will not create correct TH19 archives, please use the lat‐
+       This version will not create correct TH19 archives, please use the lat窶
        est thanm(1) instead.
 
 SECURITY CONSIDERATIONS

@@ -1,7 +1,7 @@
 THSTD(1)                    General Commands Manual                   THSTD(1)
 
 NAME
-       thstd — Touhou background script tool
+       thstd 窶 Touhou background script tool
 
 SYNOPSIS
        thstd [-V] [-d | -c -VERSION] [input [output]]
