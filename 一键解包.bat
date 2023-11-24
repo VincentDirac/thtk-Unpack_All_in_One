@@ -27,7 +27,7 @@ pause
 
 echo Unpack ANM...
 cd ./anm
-for /r "%WORKSPACE%" %%c in (*.anm) do "%THTK_ANM%" -x %THVER% "%%c"
+for /r "%WORKSPACE%" %%c in (*.anm) do "%THTK_ANM%" -x %THVER% "%%c" -uu
 cd ..
 pause
 

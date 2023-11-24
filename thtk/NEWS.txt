@@ -1,0 +1,283 @@
+What's new in thtk master
+=====================
+
+#### thtk
+- Improvements to the CMake build process.
+- thlzss.h and thcrypt.h are now part of the API.
+- We've set up GitHub Actions for automatic builds.
+
+#### thanm
+- New thanm spec format. See <https://github.com/thpatch/thtk/pull/86> for more
+  details. The old format is not supported anymore. Use thanm.old for it.
+- Game version now must be specified, just as with other tools.
+- Support for TH18, TH185, TH19 (full) has been added.
+- Support th143/bestshot.anm
+- Two new options (-u and -uu) were added to help with rebuilding TH19 files
+  bit-perfectly. See documentation for more details.
+- A new option (-X) to extract images from multiple ANM files at once.
+
+#### thanm.old
+- Will be removed in the next release.
+- Support for TH18, TH185, TH19 (trial) has been added.
+  TH19 creation won't work, though. Use the new thanm instead.
+- You can now specify the version for the -l command.
+  This is required for correct dumping of TH18, TH185.
+- Support th143/bestshot.anm
+
+#### thecl
+- Fix and/or add the following instruction formats:
+    th06 71-74, 90
+    th08 14, 19, 72, 84-86, 118, 119, 152
+    th13 18. 19, 20, 24
+- The eclmap format has been changed. It's documented in the thecl manual.
+  A converter is available in contrib/eclmapcvt.awk.
+- Allow multiple mnemonics for the same instruction.
+- Allow eclmap signatures for timeline instructions.
+- The parser grammar has been reworked to be completely unambiguous.
+- Control statements now require parenthesis around expressions.
+  E.g. if (x) goto y; instead of if x goto y;
+- More escape sequences are supported: \r \n \0.
+- Unary plus operator added.
+- Expressions are compile-time evaluated, and constant expressions are allowed
+  in more places.
+- Added #line directive.
+- Added insdef statement for defining new instructions.
+- Support for TH18, TH185, TH19 has been added.
+- Numerous bug-fixes.
+- Add -x option for outputting address information for instructions.
+- Add -C option for changing the current directory after opening the archive.
+- Add -j option for converting strings between Shift-JIS and UTF-8.
+
+#### thdat
+- Automatic version detection now supports th165, th17, th18, th185, th19.
+- Detection works better with renamed files.
+- Support for TH18, TH185, TH19 has been added.
+- Improve extraction speed.
+- Add -g option to enable globing on extracted filenames.
+  Example: thdat -gx18 th18.dat "*.ecl"
+- Support for older Tasogare Frontier games added:
+  IaMP, Super Marisa Land, MegaMari, Higurashi Daybreak, PatchCon
+
+#### thmsg
+- Support for TH18, TH185, TH19 has been added.
+
+#### thstd
+- Support for TH18, TH185, TH19 has been added.
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+What's new in thtk 12
+=====================
+
+A lot of improvements for thecl. If you want to recompile ZUN's files
+bit-for-bit, make sure you use the simple creation flag (-s) introduced in this
+version.
+
+#### thanm
+- Support for TH17 has been added.
+
+#### thecl
+- Scan and parse negative (-val) function. (th13+ only)
+- Complete support for th16.5.
+- Look up ≥th10 instruction formats even if they have no parameters.
+- Print the total parameter size for unknown ≥th10 instructions.
+- th10: Add neqf to format table.
+- Print error and quit if expressions contain invalid types.
+- Allow floats in the form 1.f
+- Allow floats in the form +1f (and +1.2f and +1.f)
+- Allow integers in the form +123
+- Add sin, cos and sqrt expressions.
+- Allow sub calls by name with parameters cast by type.
+- Add proper if-else blocks.
+- Add while and (simple) switch blocks.
+- Add global definitions.
+- Add missing and fix existing EoSD instructions.
+- th06: Check if instruction's opcode is higher than the max usable by the game
+- Add bitwise operators.
+- Fix argument types for a handful of th12 and th13 instructions.
+- Support for TH17 has been added.
+- Add escaping quotes and backslashes in strings.
+- Add ZUN-style difficulty switches for writing custom ECL
+- Don't force typecasts for instruction calls
+- Add syntax for writing degree-floats (auto converts value to radians).
+- Add syntax for writing binary integer literals.
+- Add forced sub calls by name.
+- Allow var declarations anywhere in the sub.
+- Add variable initialization.
+- Automatically add missing ins_10 at the end of a sub.
+- Better difficulty switch expression.
+- Add times loop.
+- Add simple creation mode.
+- Added typed variables.
+- Improved code blocks.
+- Add shorthand operators. (e.g. +=)
+- Constant math optimization pass.
+- Add #include directive
+- Add #eclmap directive
+- Add single-line comments.
+- Add proper pre-th10 timeline dumping.
+- Add #ins directive
+- Typed functions, return values.
+- Variable scoping.
+- Parse true/false as integer 1/0 respectively.
+- Add relative time labels (i.e. +60:). These are the default format when
+  dumping. The total absolute value is appended as a comment.
+- Add inline sub support. Prepend the keyword "inline" to the sub type to make
+  every call to that sub inline. Inline subs cannot call themselves.
+- Gotos will automatically assign the same time as to where the label is
+  located if no time is specified.
+
+#### thdat
+- Support for TH17 has been added.
+- Add support for th09e.dat.
+
+#### thmsg
+- Support for TH17 has been added.
+
+#### thstd
+- Support for TH17 has been added.
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+What's new in thtk 11
+=====================
+
+This release adds thstd, a new tool to dump and recreate the background
+scripts found in the *.std files. Further changes to existing tools:
+
+#### thanm
+In preparation of thcrap's upcoming support for ANM header patching, more
+thorough reverse-engineering went into the various ANM structures.
+All previously unknown fields have now been identified and named.
+Additionally, index numbers are now dumped for entries and instruction lines,
+as this is the only reliable way to address them in an ANM header patch.
+Creating new ANM archives from old spec dumps will show backwards-compatibility
+warnings to ease the transition to the new, more correct dump format.
+
+Thanks to GhostPhanom for funding this development!
+
+- Type declarations are now taken from the thtypes repository, which has been
+  added as an additional Git submodule.
+
+- Support for TH16.5 has been added.
+
+#### thecl
+- Support for TH16.5 has been added.
+
+#### thmsg
+- Support for TH16.5 has been added.
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+What's new in thtk 10
+====================
+
+This release introduces a new syntax for all commands, incompatible with
+previous versions. Please refer to the manpages for new syntax.
+
+Mnemonic version names (such as HSiFS or LoLK) are now supported by all
+commands.
+
+#### thanm
+- Support spaces in image file names.
+
+#### thecl
+- Multiple eclmaps can be specified on the command line now.
+- Added unused instruction formats (th07)
+
+#### thdat
+- Added support for Uwabami Breakers
+- Added automatic version detection, using -xd and -ld parameters
+- Fixed crash when trying to list archive of wrong version
+
+#### thtk
+- Added support for wide filenames
+- Functions for detecting the version of dat file
+- Import lib is now included with the release
+
+#### contrib
+Added a contrib directory with a bunch of goodies.
+- C++ wrapper for thtk library
+- thdat plugin for Midnight Commander
+- thdat plugin for Total Commander
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+What's new in thtk 9
+====================
+
+#### thecl
+- Fixed compiling TH06-095 ECL files.
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+What's new in thtk 8
+====================
+
+#### thanm
+- Support for TH16 has been added.
+
+#### thdat
+- Support for TH01 and TH16 has been added.
+- Fixed multi-threading support.
+
+#### thecl
+- Support for TH16 has been added.
+- Many fixes to opcode parameter formats.
+- Improved difficulty flag handling in TH13+. This is a breaking change and
+  may cause issues when compiling existing ECL sources.
+- Added support for mapping ECL global variables and opcodes to human readable
+  names.
+- Fixed the long broken expression decompilation support.
+
+#### thmsg
+- Support for TH16 has been added.
+
+Please submit an issue at GitHub (https://github.com/thpatch/thtk/issues) if
+you find a bug.
+
+
+-------------------------------------------------------------------------------
+
+
+What's new in thtk 7
+====================
+
+#### thanm
+- Support for TH15 has been added.
+
+#### thdat
+- Support for TH14, TH143, TH15 has been added.
+- Support for TH105, TH123 has been added. These are not tested, and may
+  behave wrongly.
+- You can archive the whole directory now. Pass the directory name as the
+  argument.
+
+#### thecl
+- Support for TH14, TH143, TH15 has been added.
+
+#### thmsg
+- Support for TH15 has been added.
+
+Support for TH143 is not tested. Please submit the issue at the GitHub project
+page (https://github.com/thpatch/thtk/issues) if you found a bug.
