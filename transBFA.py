@@ -10,6 +10,7 @@ bfaDir = args.dir if args.dir else './bgm/'
 def getMusicCMT(filePath):
     f = open(filePath,"r+", encoding="utf-8")
     bgmObj = {}
+    bgmFileName = ""
     for line in f.readlines():
         if "@bgm/" in line:
             # 查找BGM文件名
@@ -43,9 +44,9 @@ def getBFAJson(bgmObj,filePath):
                 # BGM文件名字
                 fileName = bgmLine[0]
                 bgmName = bgmObj.get(fileName)
-                if(bgmName == None):
+                if(bgmName is None):
                     # 处理复用文件名
-                    if spList.get(fileName) != None:
+                    if spList.get(fileName) is not None:
                         bgmName = spList.get(fileName)
                     else:
                         bgmName = fileName
