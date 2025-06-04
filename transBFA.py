@@ -11,7 +11,7 @@ def getMusicCMT(filePath):
     f = open(filePath,"r+", encoding="utf-8")
     bgmObj = {}
     bgmFileName = ""
-    for line in f.readlines():
+    for line in f:
         if "@bgm/" in line:
             # 查找BGM文件名
             bgmFileName = line.lstrip("@bgm/").rstrip("\n").rstrip(".wav").upper() + ".WAV"
@@ -30,7 +30,7 @@ def getBFAJson(bgmObj,filePath):
     spList = {
         "TH128_08.WAV":"プレイヤーズスコア"
     }
-    for line in f.readlines():
+    for line in f:
         line = line.rstrip("\n")
         if line == "":
             continue

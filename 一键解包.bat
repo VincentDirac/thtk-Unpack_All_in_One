@@ -14,24 +14,44 @@ SET THTK_MSG=%TOOLSDIR%thtk\thmsg
 SET THTK_ECL=%TOOLSDIR%thtk\thecl
 SET THTK_ECL=%TOOLSDIR%thtk\thecl
 
-:: 初始化变量
+:: 自动识别thXX.exe、thXXX.exe、thXXtr.exe、thXXXtr.exe
 set "THVER="
 set "IS_TRIAL=0"
 
-:: 遍历文件夹中的文件
-for %%F in ("%THDIR%\*") do (
+setlocal enabledelayedexpansion
+for %%F in ("%THDIR%\th*.exe") do (
     set "filename=%%~nxF"
-    
-    :: 查找形如 thNN.exe 的文件，提取版本号
-    echo !filename! | findstr /r /i "^th[0-9][0-9]" >nul
-    if !errorlevel! == 0 (
-        set "namepart=!filename:~2,2!"
-        set "THVER=!namepart!"
+    set "core=!filename:~2!"
+    set "core=!core:.exe=!"
+
+    if /i "!core:~-2!"=="tr" (
+        set "IS_TRIAL=1"
+        set "verpart=!core:~0,-2!"
+    ) else (
+        set "IS_TRIAL=0"
+        set "verpart=!core!"
     )
 
-    :: 检查文件名是否包含 tr，标记为体验版
-    echo !filename! | find /i "tr" >nul && set "IS_TRIAL=1"
+    REM 判断verpart长度为2或3且全为数字
+    set "vlen=0"
+    for %%C in (!verpart!) do set /a vlen+=1
+    set "isnum=1"
+    for /f "delims=0123456789" %%C in ("!verpart!") do set "isnum=0"
+    if "!isnum!"=="1" (
+        if "!verpart:~2!"=="" (
+            call set "THVER=!verpart!"
+            call set "IS_TRIAL=!IS_TRIAL!"
+            goto found
+        )
+        if "!verpart:~3!"=="" (
+            call set "THVER=!verpart!"
+            call set "IS_TRIAL=!IS_TRIAL!"
+            goto found
+        )
+    )
 )
+endlocal
+:found
 
 SET DAT=th%THVER%.dat
 SET BGMDAT=thbgm.dat
@@ -117,6 +137,8 @@ if not exist ./msg (
 )
 for /r "%WORKSPACE%" %%c in (pl*.msg) do "%THTK_MSG%" -d %THVER% "%%c" ./msg/"%%~nc".txt
 for /r "%WORKSPACE%" %%c in (st*.msg) do "%THTK_MSG%" -d %THVER% "%%c" ./msg/"%%~nc".txt
+for /r "%WORKSPACE%" %%c in (msg*.msg) do "%THTK_MSG%" -d %THVER% "%%c" ./msg/"%%~nc".txt
+for /r "%WORKSPACE%" %%c in (msg*.dat) do "%THTK_MSG%" -d %THVER% "%%c" ./msg/"%%~nc".txt
 pause
 
 echo Unpack END MSG...
@@ -142,8 +164,7 @@ echo Unpack ECL...
 if not exist ./ecl (
     mkdir ./ecl
 )
-for /r "%WORKSPACE%" %%c in (pl*.ecl) do "%THTK_ECL%" -d %THVER% "%%c" -rxj ./ecl/"%%~nc".txt
-for /r "%WORKSPACE%" %%c in (st*.ecl) do "%THTK_ECL%" -d %THVER% "%%c" -rxj ./ecl/"%%~nc".txt
+for /r "%WORKSPACE%" %%c in (*.ecl) do "%THTK_ECL%" -d %THVER% "%%c" -rxj ./ecl/"%%~nc".txt
 
 :end
 pause
