@@ -4,10 +4,12 @@ import chardet
 
 L = [] # 记录要处理的文件
 
-for root, dirs, files in os.walk(".\\"): # 要处理文件所在文件夹
-    # 获得所有.txt文件
+for root, dirs, files in os.walk(".\\", topdown=True): # 要处理文件所在文件夹
+    # 获得所有文本文件
     for file in files:
-        if os.path.splitext(file)[1] == '.txt':
+        SUPPORTED_EXTENSIONS = ['.txt', '.md', '.html', '.xml', '.json', '.py', '.js', '.css', '.csv', '.tsv']
+        if os.path.splitext(file)[1].lower() in SUPPORTED_EXTENSIONS:
+            # 只处理指定后缀的文件
             L.append(os.path.join(root, file))
 
 if len(L) > 0:
