@@ -272,10 +272,11 @@ for bgm in fmt.bgmList:
             fade_samples = fade_duration * sample_rate * channels
 
             # 提取淡出部分数据
-            fade_data = loopBytes[:fade_samples * sample_width]
+            fade_data = loopBytes[: fade_samples * sample_width]
 
             # 应用淡出效果
             import numpy as np
+
             audio_array = np.frombuffer(fade_data, dtype=np.int16)  # 假设 16 位深度
             fade_curve = np.linspace(1, 0, len(audio_array) // channels, endpoint=True)
             fade_curve = np.repeat(fade_curve, channels)  # 为每个声道应用淡出
