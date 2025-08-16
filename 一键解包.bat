@@ -218,8 +218,11 @@ goto end
 :execute
 echo Convert BGM to MP3...
 cd ./bgm
+if not exist mp3 (
+    mkdir mp3
+)
 for %%F in (*.wav) do (
-    ffmpeg -i "%%F" -c:a libmp3lame -b:a 320k "%%~nF.mp3"
+    ffmpeg -i "%%F" -c:a libmp3lame -b:a 320k "mp3/%%~nF.mp3"
 )
 cd ..
 
@@ -242,4 +245,5 @@ goto end
 echo Generate dialogue wikitext...
 python "%TOOLSDIR%transDialogue.py" --thver %THVER%
 :end
+echo All done.
 pause

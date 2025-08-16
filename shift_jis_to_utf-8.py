@@ -5,6 +5,9 @@ import chardet
 filesList = []  # 记录要处理的文件
 
 for root, dirs, files in os.walk(".\\", topdown=True):  # 要处理文件所在文件夹
+    # 忽略指定文件夹
+    ignore_dirs = {"thtk", ".git", ".vscode", ".pytest_cache", "dist", "build", ".pixi"}
+    dirs[:] = [d for d in dirs if d not in ignore_dirs]
     # 获得所有文本文件
     for file in files:
         SUPPORTED_EXTENSIONS = [
