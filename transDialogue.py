@@ -66,18 +66,38 @@ def convertMsg(root, file_name, output_dir, music_name):
 
     # 用于存储解析结果
     parsed_lines = []
+    # 文件开头插入 BGM 信息
+    parsed_lines.append("bgm")
+    parsed_lines.append("ja")
+    parsed_lines.append(f"BGM: {{{{{music_name}音乐名|2|{file_number * 2}}}}}")
+    parsed_lines.append("zh")
+    parsed_lines.append(f"BGM: {{{{{music_name}音乐名|1|{file_number * 2}}}}}")
 
     # 正则表达式匹配
     dialogue_pattern = re.compile(r"17;(.+)")
     bgm_pattern = re.compile(r"\b19\b")
     char_pattern = re.compile(r"^\s*(7|8;)")  # 匹配角色标识
+    entry_pattern = re.compile(r"^entry\s+(\d+)")
 
     # 读取文件并逐行解析
     with open(os.path.join(root, file_name), "r+", encoding="utf-8") as file:
         current_dialogue = []
         current_char = None  # 当前角色
+        current_entry = None
         for line in file:
             stripped_line = line.strip()
+
+            # 检查 entry
+            entry_match = entry_pattern.match(stripped_line)
+            if entry_match:
+                current_entry = int(entry_match.group(1))
+                # 如果是 entry 1，插入指定内容
+                if current_entry == 1:
+                    parsed_lines.append("status")
+                    parsed_lines.append("关底BOSS战")
+                    parsed_lines.append("status")
+                    parsed_lines.append("[[敌机]] 被击败")
+                continue
 
             # 检查是否是角色标识
             char_match = char_pattern.match(stripped_line)
@@ -96,6 +116,13 @@ def convertMsg(root, file_name, output_dir, music_name):
             if bgm_pattern.search(stripped_line):
                 # 如果有未输出的对话块，先输出对话
                 if current_dialogue:
+                    if current_char == "7":
+                        char_text = "char\n自机"
+                    elif current_char == "8;":
+                        char_text = "char\n敌机"
+                    else:
+                        char_text = f"char\n{current_char if current_char else ''}"
+                    parsed_lines.append(char_text)
                     parsed_lines.append("ja")
                     parsed_lines.append("<br />".join(current_dialogue))
                     parsed_lines.append("zh")
@@ -106,26 +133,43 @@ def convertMsg(root, file_name, output_dir, music_name):
                 parsed_lines.append("bgm")
                 parsed_lines.append("ja")
                 parsed_lines.append(
-                    f"{{{{{music_name}音乐名|2|{file_number * 2 + 1}}}}}"
+                    f"BGM: {{{{{music_name}音乐名|2|{file_number * 2 + 1}}}}}"
                 )
                 parsed_lines.append("zh")
                 parsed_lines.append(
-                    f"{{{{{music_name}音乐名|1|{file_number * 2 + 1}}}}}"
+                    f"BGM: {{{{{music_name}音乐名|1|{file_number * 2 + 1}}}}}"
                 )
                 continue
 
             # 如果遇到非对话行且当前对话块不为空，输出对话块
             if current_dialogue:
-                parsed_lines.append(f"char\n{current_char if current_char else ''}")
+                # 默认角色为敌机
+                if current_char == "7":
+                    char_text = "char\n自机"
+                elif current_char == "8;":
+                    char_text = "char\n敌机"
+                elif current_char is None:
+                    char_text = "char\n敌机"
+                else:
+                    char_text = f"char\n{current_char}"
+                parsed_lines.append(char_text)
                 parsed_lines.append("ja")
                 parsed_lines.append("<br />".join(current_dialogue))
                 parsed_lines.append("zh")
                 parsed_lines.append("")
                 current_dialogue = []
-
-    # 如果文件结束时还有未输出的对话块，输出它
+# ...existing code...
+    # 文件结束时输出剩余对话块
     if current_dialogue:
-        parsed_lines.append(f"char\n{current_char if current_char else ''}")
+        if current_char == "7":
+            char_text = "char\n自机"
+        elif current_char == "8;":
+            char_text = "char\n敌机"
+        elif current_char is None:
+            char_text = "char\n敌机"
+        else:
+            char_text = f"char\n{current_char}"
+        parsed_lines.append(char_text)
         parsed_lines.append("ja")
         parsed_lines.append("<br />".join(current_dialogue))
         parsed_lines.append("zh")
@@ -139,4 +183,5 @@ def convertMsg(root, file_name, output_dir, music_name):
     print("解析完成，结果已保存。")
 
 
-main()
+if __name__ == "__main__":
+    main()
