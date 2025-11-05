@@ -171,7 +171,7 @@ def convertMsg(root, file_name, output_dir, music_name):
             char_text = f"char\n{current_char}"
         parsed_lines.append(char_text)
         parsed_lines.append("ja")
-        parsed_lines.append("<br />".join(current_dialogue))
+        parsed_lines.append("\n".join(current_dialogue))
         parsed_lines.append("zh")
         parsed_lines.append("")
 
