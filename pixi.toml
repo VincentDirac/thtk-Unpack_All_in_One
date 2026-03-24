@@ -1,0 +1,14 @@
+[workspace]
+authors = ["VincentDirac <VincentDirac@qq.com>"]
+channels = ["conda-forge"]
+name = "thtk-Unpack_All_in_One"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+numpy = ">=2.4.3,<3"
+chardet = ">=7.2.0,<8"
+ffmpeg = ">=8.0.1,<9"
+python = ">=3.14.3,<3.15"

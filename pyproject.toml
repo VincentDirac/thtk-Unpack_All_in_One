@@ -1,0 +1,23 @@
+[project]
+authors = [{name = "VincentDirac", email = "VincentDirac@qq.com"}]
+dependencies = []
+name = "thtk-Unpack_All_in_One"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["win-64"]
+
+[tool.pixi.pypi-options]
+index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+extra-index-urls = ["https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"]
+
+[tool.pixi.pypi-dependencies]
+thtk_unpack_all_in_one = { path = ".", editable = true }
+
+[tool.pixi.tasks]

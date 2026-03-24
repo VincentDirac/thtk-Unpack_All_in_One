@@ -8,3 +8,10 @@
 
 # Pytest
 .pytest_cache
+
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+# pixi environments
+.pixi/*
+!.pixi/config.toml

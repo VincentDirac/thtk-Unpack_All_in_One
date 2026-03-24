@@ -171,7 +171,7 @@ pause
 
 :: 转换编码为 UTF-8
 echo Convert Encoding to UTF8...
-python "%TOOLSDIR%shift_jis_to_utf-8.py"
+pixi run python "%TOOLSDIR%shift_jis_to_utf-8.py"
 pause
 
 :: 解包 BGM 文件并生成 BgmForAll 文件
@@ -192,12 +192,12 @@ if not exist ./bgm (
     mkdir ./bgm
 )
 cd ./bgm
-python "%TOOLSDIR%thbgm.py" -f "%WORKSPACE%/%BGMFMT%" -d "%THDIR%/%BGMDAT%" -lWI -L 2
+pixi run python "%TOOLSDIR%thbgm.py" -f "%WORKSPACE%/%BGMFMT%" -d "%THDIR%/%BGMDAT%" -lWI -L 2
 cd ..
 pause
 
 echo Get BgmForAll Info...
-python "%TOOLSDIR%transBFA.py" -c "%TOOLSDIR%/data/%MUSICCMT%" -d "%TOOLSDIR%/bgm/"
+pixi run python "%TOOLSDIR%transBFA.py" -c "%TOOLSDIR%/data/%MUSICCMT%" -d "%TOOLSDIR%/bgm/"
 echo Done.
 
 :end
@@ -222,7 +222,7 @@ if not exist mp3 (
     mkdir mp3
 )
 for %%F in (*.wav) do (
-    ffmpeg -i "%%F" -c:a libmp3lame -b:a 320k "mp3/%%~nF.mp3"
+    pixi run ffmpeg -i "%%F" -c:a libmp3lame -b:a 320k "mp3/%%~nF.mp3"
 )
 cd ..
 
@@ -243,7 +243,7 @@ goto end
 
 :execute
 echo Generate dialogue wikitext...
-python "%TOOLSDIR%transDialogue.py" --thver %THVER%
+pixi run python "%TOOLSDIR%transDialogue.py" --thver %THVER%
 :end
 echo All done.
 pause
